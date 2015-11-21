@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
-gem "jekyll"
+gem 'jekyll'
+gem 'rake'
 #gem "html-proofer"
 #gem "jekyll-sitemap"
