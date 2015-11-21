@@ -5,7 +5,7 @@ check_revision()
   REV_LOCAL="$(git rev-parse HEAD)"
   REV_REMOTE="$(git rev-parse origin/master)"
   if [ "$REV_LOCAL" != "$REV_REMOTE" ]; then
-    >&2 echo "WARNING: HEAD is not the same as origin/master. Run `git push` to sync changes."
+    >&2 echo "WARNING: HEAD is not the same as origin/master. Run git push to sync changes."
     exit 1
   fi
 }
