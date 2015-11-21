@@ -1,5 +1,6 @@
 #!/bin/sh
 
+SITE_REPO_NAME="olegantonyan.github.io"
 
 check_revision()
 {
@@ -9,7 +10,6 @@ check_revision()
     >&2 echo "WARNING: Working directory contains unstaged files."
     exit 1
   fi
-
   REV_LOCAL="$(git rev-parse HEAD)"
   REV_REMOTE="$(git rev-parse origin/master)"
   if [ "$REV_LOCAL" != "$REV_REMOTE" ]; then
@@ -19,12 +19,9 @@ check_revision()
 }
 
 check_revision
-
 bundle exec jekyll build
 
-SITE_REPO_NAME="olegantonyan.github.io"
 LAST_COMMIT="$(git rev-list --format=%B --max-count=1 HEAD)"
-
 pushd `pwd`
 cd /tmp
 rm -rf /tmp/$SITE_REPO_NAME
