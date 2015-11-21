@@ -2,6 +2,10 @@ language: ruby
 rvm:
 - 2.1
 
+before_script:
+ - chmod +x ./script/build.sh
+ - chmod +x ./script/deploy.sh
+
 install: gem install jekyll html-proofer jekyll-sitemap
 script: scripts/build.sh
 
