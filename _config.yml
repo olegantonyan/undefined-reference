@@ -6,20 +6,20 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: undefined reference to blog
+title: undefined reference blog
 email: oleg.b.antonyan@gmail.com
+author: Oleg Antonyan
 description: > # this means to ignore newlines until "baseurl:"
-  Blog about programming and related stuff.
+  Open source programming blog
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://yourdomain.com" # the base hostname & protocol for your site
 
 # Social links
-twitter_username: oleg_antonyan
-github_username:  olegantonyan
-stackoverflow_username: oleg-antonyan
+twitter_link: "https://twitter.com/oleg_antonyan"
+github_link:  "https://github.com/olegantonyan"
 stackoverflow_link: "http://stackoverflow.com/users/1837084/oleg-antonyan"
-linkedin_username: oleg-antonyan
 linkedin_link: "https://www.linkedin.com/in/oleg-antonyan-2b715089"
+facebook_link: "https://www.facebook.com/100005362953409"
 
 # Build settings
 markdown: kramdown
