@@ -18,6 +18,8 @@ check_revision()
   fi
 }
 
+git add . --all && git commit && git push
+
 check_revision
 bundle exec jekyll build
 
