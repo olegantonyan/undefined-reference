@@ -12,7 +12,7 @@ author: Oleg Antonyan
 description: > # this means to ignore newlines until "baseurl:"
   Open source programming blog
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "http://undefined-reference.org" # the base hostname & protocol for your site
 
 # Social links
 twitter_link: "https://twitter.com/oleg_antonyan"
