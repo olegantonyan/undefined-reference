@@ -1,8 +1,8 @@
 language: ruby
 rvm:
-- 2.1
+- 2.2
 
-install: gem install jekyll html-proofer jekyll-sitemap
+#install: gem install jekyll html-proofer
 script: scripts/build.sh
 
 # branch whitelist
