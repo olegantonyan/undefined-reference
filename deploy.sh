@@ -1,7 +1,15 @@
 #!/bin/sh
 
+
 check_revision()
 {
+  git diff --exit-code
+  RESULT="$?"
+  if [ "$RESULT" != "0" ]; then
+    >&2 echo "WARNING: Working directory contains unstaged files."
+    exit 1
+  fi
+
   REV_LOCAL="$(git rev-parse HEAD)"
   REV_REMOTE="$(git rev-parse origin/master)"
   if [ "$REV_LOCAL" != "$REV_REMOTE" ]; then
