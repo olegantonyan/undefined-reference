@@ -1,3 +1,3 @@
-task :deploy do
-  sh './deploy.sh'
+task :release do
+  sh './release.sh'
 end
