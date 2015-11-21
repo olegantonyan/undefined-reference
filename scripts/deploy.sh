@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo ${git_user}
+echo 'hello world'
 if [[ $TRAVIS_BRANCH == 'master' ]] ; then
   cd _site
   git init
