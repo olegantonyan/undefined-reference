@@ -10,23 +10,7 @@
             <a href="/about"><img src="/assets/me_rounded.png" height="60em" width="60em"></a>
           </li>
           <li>
-            <div class="social-links">
-              <a href="{{ site.github_link }}" target="_blank">
-                <i class="fa fa-github"></i>
-              </a>
-              <a href="{{ site.github_link }}" target="_blank">
-                <i class="fa fa-twitter"></i>
-              </a>
-              <a href="{{ site.stackoverflow_link }}" target="_blank">
-                <i class="fa fa-stack-overflow"></i>
-              </a>
-              <a href="{{ site.linkedin_link }}" target="_blank">
-                <i class="fa fa-linkedin"></i>
-              </a>
-              <a href="{{ site.facebook_link }}" target="_blank">
-                <i class="fa fa-facebook"></i>
-              </a>
-            </div>
+            {% include social_links.html %}
           </li>
         </ul>
       </div>
