@@ -1,3 +1,3 @@
 task :release do
-  sh './release.sh'
+  sh './tools/release.sh'
 end
