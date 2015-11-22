@@ -34,7 +34,7 @@ popd
 cp -R ./_site/* /tmp/$SITE_REPO_NAME
 
 pushd `pwd`
-cd /tmp/olegantonyan.github.io
+cd /tmp/$SITE_REPO_NAME
 git add . --all
 git commit -m "$LAST_COMMIT"
 git push
