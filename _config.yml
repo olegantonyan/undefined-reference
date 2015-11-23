@@ -6,11 +6,11 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: undefined reference blog
+title: undefined reference
 email: oleg.b.antonyan@gmail.com
 author: Oleg Antonyan
 description: > # this means to ignore newlines until "baseurl:"
-  Another programmer's blog
+  another programmer's blog
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://undefined-reference.org" # the base hostname & protocol for your site
 
