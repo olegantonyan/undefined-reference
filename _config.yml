@@ -10,7 +10,7 @@ title: undefined reference blog
 email: oleg.b.antonyan@gmail.com
 author: Oleg Antonyan
 description: > # this means to ignore newlines until "baseurl:"
-  Open source programming blog
+  Another programmer's blog
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://undefined-reference.org" # the base hostname & protocol for your site
 
