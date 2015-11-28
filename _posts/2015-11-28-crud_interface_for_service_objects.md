@@ -2,6 +2,8 @@
 layout: post
 title:  CRUD interface for service objects
 date:   2015-11-28 06:25:55 +0200
+description: Embrace CRUD interface to all of your domain objects
+keywords: ruby, rails, ruby on rails, services, service objects rails, activemodel
 tags:
   - ruby
   - rails
