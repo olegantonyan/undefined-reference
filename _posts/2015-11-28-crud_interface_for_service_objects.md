@@ -2,6 +2,9 @@
 layout: post
 title:  CRUD interface for service objects
 date:   2015-11-28 06:25:55 +0200
+tags:
+  - ruby
+  - rails
 ---
 Everybody knows about "service objects" concept. It's an efficient way to DRY you models and follow single responsibility principle.
 
