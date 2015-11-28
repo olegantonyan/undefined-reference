@@ -53,6 +53,6 @@ class User::TrialService < BaseService
 end
 {% endhighlight %}
 
-Now you have uniform interface to all of your domain logic objects (models and services) and it's much easier to use them in controllers. Also, it forces to to think about your domain logic in terms of CRUD interface, like REST and.
+Now you have uniform interface to all of your domain logic objects (models and services) and it's much easier to use them in controllers. Also, it forces you to think about your domain logic in terms of CRUD interface, like REST and.
 
 In the next post I'll show why this is very useful.
