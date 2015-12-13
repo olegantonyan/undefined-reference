@@ -81,7 +81,9 @@ ensure 9
 [19] pry(main)>
 {% endhighlight %}
 
-It was very surprising for me in a contrast with Ruby's "least surprise principle". But [this is how it works](ruby-doc.org/docs/keywords/1.9/Object.html)
+It was very surprising for me in a contrast with Ruby's "least surprise principle". But [this is how it works](ruby-doc.org/docs/keywords/1.9/Object.html):
+
+> Marks the final, optional clause of a begin/end block, generally in cases where the block also contains a rescue clause. The code in the ensure clause is guaranteed to be executed, whether control flows to the rescue block or not.
 
 ### Conclusion
 
