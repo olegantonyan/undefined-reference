@@ -2,7 +2,7 @@
 layout: post
 title:  "Writing Ruby gem in Rust"
 date:   2016-05-14 07:12:28 +0200
-description: How to store data in multiple languages
+description: How to integrate Rust with Ruby
 keywords: ruby, rust, gem, rubygem, native
 tags:
   - ruby
