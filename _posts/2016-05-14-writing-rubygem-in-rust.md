@@ -98,3 +98,4 @@ This post illustrates very basic approach to integration Rust with Ruby. There i
 - [Helix project](https://github.com/rustbridge/helix)
 - [SO: How can I build a Rust library when installing a gem?](http://stackoverflow.com/questions/37102967/how-can-i-build-a-rust-library-when-installing-a-gem)
 - [Turbo Rails with Rust by Godfrey Chan](http://confreaks.tv/videos/railsconf2016-turbo-rails-with-rust)
+- [Opinionated tool for creating and managing Rubygem projects using Ruby 2.3 and beyond. Supports Rusty gems](https://github.com/flajann2/juwelier)
