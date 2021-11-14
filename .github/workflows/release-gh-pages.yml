@@ -21,4 +21,4 @@ jobs:
         ruby-version: 2.7
 
     - name: Run release script
-      run: ./tools/release.sh
+      run: ./.github/release.sh
