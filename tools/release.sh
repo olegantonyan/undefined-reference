@@ -1,6 +1,7 @@
 #!/bin/sh
 
-SITE_REPO_NAME="olegantonyan.github.io"
+SITE_REPO_NAME="undefined-reference"
+PAGES_BRANCH="gh-pages"
 
 check_revision()
 {
@@ -27,7 +28,7 @@ LAST_COMMIT="$(git rev-list --format=%B --max-count=1 HEAD)"
 pushd `pwd`
 cd /tmp
 rm -rf /tmp/$SITE_REPO_NAME
-git clone git@github.com:olegantonyan/$SITE_REPO_NAME.git
+git clone -b $PAGES_BRANCH git@github.com:olegantonyan/$SITE_REPO_NAME.git
 cd $SITE_REPO_NAME && rm -rf ./*
 popd
 
