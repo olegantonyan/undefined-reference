@@ -12,7 +12,7 @@ author: Oleg Antonyan
 description: ruby and friends programming blog
 keywords: programming, software design, software engineering, ruby, python, mobile, web, rails, ruby on rails, programmer, patterns, iot, rust, c, c++
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://undefined-reference.org" # the base hostname & protocol for your site
+url: "https://undefined-reference.org" # the base hostname & protocol for your site
 
 # Social links
 twitter_link: "https://twitter.com/oleg_antonyan"
