@@ -13,6 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
+        persist-credentials: false
         fetch-depth: 0
 
     - name: Set up Ruby
@@ -23,5 +24,23 @@ jobs:
     - name: Bundle install
       run: bundle install
 
-    - name: Run release script
-      run: ./.github/release.sh
+    - name: Jekyll build
+      run: bundle exec jekyll build
+
+    - name: Copy build artecfacts
+      run: |
+        cp -R ./_site/* /tmp/build
+        git checkout gh-pages
+        rm -rf ./*
+        cp -R /tmp/build .
+
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Add changes" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
