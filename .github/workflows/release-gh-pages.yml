@@ -21,6 +21,6 @@ jobs:
         ruby-version: 2.7
 
     - name: Run release script
+      run: ./tools/release.sh
       with:
           token: ${{secrets.PAT}}
-      run: ./tools/release.sh
