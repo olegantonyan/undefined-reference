@@ -20,5 +20,8 @@ jobs:
       with:
         ruby-version: 2.7
 
+     name: Bundle install
+      run: bundle install
+
     - name: Run release script
       run: ./.github/release.sh
