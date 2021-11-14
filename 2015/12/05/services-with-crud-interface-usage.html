@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+    <meta name="description" content="User CRUD interface with your domain objects with crud_responder gem" />
+    <meta property="og:description" content="description" />
+  
+  
+    <meta name="keywords" content="ruby, rails, ruby on rails, services, service objects rails, crud_responder, activemodel" />
+  
+
+  <meta property="og:url" content="https://undefined-reference.org/2015/12/05/services-with-crud-interface-usage.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://undefined-reference.org/assets/me_rounded.png" />
+  <meta property="og:site_name" content="ruby and friends programming blog"/>
+
+  
+    <title>Using service objects with CRUD interface, the smart way</title>
+    <meta property="og:title" content="Using service objects with CRUD interface, the smart way" />
+  
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="https://undefined-reference.org/2015/12/05/services-with-crud-interface-usage.html">
+  <link rel="alternate" type="application/rss+xml" title="undefined reference" href="https://undefined-reference.org/feed.xml">
+  <link rel="stylesheet" href="/css/font-awesome-4.4.0/css/font-awesome.min.css">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">undefined reference</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <a class="page-link" href="/feed.xml">RSS</a>
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Using service objects with CRUD interface, the smart way</h1>
+    <i class="fa fa-tags"></i>
+    
+      <a href="/tag/ruby">ruby</a>
+    
+      <a href="/tag/rails">rails</a>
+    
+      <a href="/tag/crud_responder">crud_responder</a>
+    
+    <p class="post-meta"><i class="fa fa-calendar"></i>
+      <time datetime="2015-12-05T11:27:09+02:00" itemprop="datePublished">Dec 5, 2015</time>
+      
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><a href="/2015/11/28/crud_interface_for_service_objects.html">In a previous post</a> we saw how to create service objects with CRUD interface. Now let’s see why <s>you should care</s> it is useful.</p>
+
+<p>REST architecture is about CRUD over http. Rails uses RESTful routes. And in every RESTful controller action you may find something like this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">create</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">post_params</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">save</span>
+    <span class="n">redirect_to</span> <span class="vi">@post</span><span class="p">,</span> <span class="ss">notice: </span><span class="s1">'Post was successfully updated.'</span> <span class="p">}</span>
+  <span class="k">else</span>
+    <span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error updating post: </span><span class="si">#{</span><span class="vi">@post</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">to_sentence</span><span class="si">}</span><span class="s2">"</span>
+    <span class="n">render</span> <span class="ss">:edit</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">update</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+  <span class="k">if</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">post_params</span><span class="p">)</span>
+    <span class="n">redirect_to</span> <span class="vi">@post</span><span class="p">,</span> <span class="ss">notice: </span><span class="s1">'Post was successfully created.'</span>
+  <span class="k">else</span>
+    <span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error creating post: </span><span class="si">#{</span><span class="vi">@post</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">to_sentence</span><span class="si">}</span><span class="s2">"</span>
+    <span class="n">render</span> <span class="ss">:new</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Not very DRY, isn’t it? The only differences between these actions are:</p>
+
+<ul>
+  <li>Method called on a model</li>
+  <li>Action on success</li>
+  <li>Action on error</li>
+  <li>Text in flash message on success</li>
+  <li>Text in flash message on error</li>
+</ul>
+
+<p>What if we can extract them? We can decide which method to call on a model, where to redirect/render after, which flash messages to show by inspecting the model itself and a controller’s action.</p>
+
+<p>But this is fine when you are dealing with <code class="language-plaintext highlighter-rouge">ActiveRecord</code> (<code class="language-plaintext highlighter-rouge">ActiveModel</code> to be precise) models. What if we are using service objects? One of the “canonical” way to use service objects is by calling <code class="language-plaintext highlighter-rouge">call</code> method, like this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># app/services/create_membership_service.rb</span>
+<span class="k">class</span> <span class="nc">CreateMembershipService</span>
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+    <span class="c1"># creating associations, sending notifications, etc</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># app/services/destroy_membership_service.rb</span>
+<span class="k">class</span> <span class="nc">DestroyMembershipService</span>
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+    <span class="c1"># destroing associations, sending notifications, etc</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># app/controllers/memberships_controller.rb</span>
+<span class="k">class</span> <span class="nc">MembershipsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="k">if</span> <span class="no">CreateMembershipService</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">call</span>
+      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">notice: </span><span class="s2">"Membership has been created"</span>
+    <span class="k">else</span>
+      <span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error creating membership"</span>
+      <span class="n">render</span> <span class="ss">:edit</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="k">if</span> <span class="no">DestroyMembershipService</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">call</span>
+      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">notice: </span><span class="s2">"Membership has been destroyed"</span>
+    <span class="k">else</span>
+      <span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error destroying membership"</span>
+      <span class="n">render</span> <span class="ss">:edit</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Again, not very DRY. And here comes services which behave like <code class="language-plaintext highlighter-rouge">ActiveModel</code> and use CRUD interface.</p>
+
+<p>Also, let’s add some <code class="language-plaintext highlighter-rouge">magic</code> method which will call appopriate method on an object, redirect and show flashes:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># app/services/membership_service.rb</span>
+<span class="k">class</span> <span class="nc">MembershipService</span>
+  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Model</span>
+
+  <span class="k">def</span> <span class="nf">save</span>
+    <span class="c1"># creating associations, sending notifications, etc</span>
+    <span class="c1"># return true if ok, false otherwise and add messages to `errors`</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="c1"># destroing associations, sending notifications, etc</span>
+    <span class="c1"># return true if ok, false otherwise and add messages to `errors`</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># app/controllers/memberships_controller.rb</span>
+<span class="k">class</span> <span class="nc">MembershipsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="n">magic</span> <span class="no">MembershipService</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="n">magic</span> <span class="no">MembershipService</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>What inside <code class="language-plaintext highlighter-rouge">magic</code> function?</p>
+
+<ul>
+  <li>Check which actions it is called from by inspecting <code class="language-plaintext highlighter-rouge">caller</code></li>
+  <li>Call <code class="language-plaintext highlighter-rouge">save</code> or <code class="language-plaintext highlighter-rouge">destroy</code> according to the action</li>
+  <li>Redirect to appropriate url or render a template according to result of calling <code class="language-plaintext highlighter-rouge">save</code> or <code class="language-plaintext highlighter-rouge">destroy</code></li>
+  <li>Show appropriate flash messages. In case of error - extract messages from <code class="language-plaintext highlighter-rouge">errors</code> object</li>
+</ul>
+
+<p>Not so magic, isn’t it? Luckily you don’t have to implement all this logic because I’ve already done this in <a href="https://github.com/olegantonyan/crud_responder" target="_blank">crud_responder</a> gem.</p>
+
+<p>Now it’s very handy to have all domain objects (models and services) with CRUD interface so you can use them in controllers without worrying whether it’s ActiveRecord model or a service object.</p>
+
+  </div>
+
+  <div class="social-share">
+    <span class="reddit-share">
+      <a href="//www.reddit.com/submit" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img src="//www.redditstatic.com/spreddit1.gif" alt="submit to reddit" border="0" /> </a>
+    </span>
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <ul class="contact-list">
+          <li>Oleg Antonyan</li>
+          <li>
+            <a href="/about"><img src="/assets/me_rounded.png" height="60em" width="60em"></a>
+          </li>
+          <li>
+            <div class="social-links">
+  <a href="" target="_blank">
+    <i class="fa fa-github"></i>
+  </a>
+  <a href="https://bitbucket.org/antlabs_dev" target="_blank">
+    <i class="fa fa-bitbucket"></i>
+  </a>
+  <a href="http://stackoverflow.com/users/1837084/oleg-antonyan" target="_blank">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  <a href="https://www.linkedin.com/in/oleg-antonyan-2b715089" target="_blank">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  <a href="https://angel.co/oleg-antonyan" target="_blank">
+    <i class="fa fa-angellist"></i>
+  </a>
+  <a href="https://www.facebook.com/100005362953409" target="_blank">
+    <i class="fa fa-facebook"></i>
+  </a>
+</div>
+
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>
+          undefined reference :: ruby and friends programming blog
+        </p>
+        <p>
+          Build with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, hosted on <a href="https://pages.github.com/" target="_blank">Github Pages</a>
+        </p>
+        <p>
+          <a href="https://github.com/olegantonyan/undefined-reference" target="_blank">Source code</a>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
