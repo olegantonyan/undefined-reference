@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+    <meta name="description" content="ActiveSupport's with_options helps you keep classes DRY" />
+    <meta property="og:description" content="description" />
+  
+  
+    <meta name="keywords" content="ruby, activesupport, with_options, rails" />
+  
+
+  <meta property="og:url" content="https://undefined-reference.org/2015/12/26/drying_your_classes_with_options.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://undefined-reference.org/assets/me_rounded.png" />
+  <meta property="og:site_name" content="ruby and friends programming blog"/>
+
+  
+    <title>DRY with_options</title>
+    <meta property="og:title" content="DRY with_options" />
+  
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="https://undefined-reference.org/2015/12/26/drying_your_classes_with_options.html">
+  <link rel="alternate" type="application/rss+xml" title="undefined reference" href="https://undefined-reference.org/feed.xml">
+  <link rel="stylesheet" href="/css/font-awesome-4.4.0/css/font-awesome.min.css">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">undefined reference</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <a class="page-link" href="/feed.xml">RSS</a>
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">DRY with_options</h1>
+    <i class="fa fa-tags"></i>
+    
+      <a href="/tag/ruby">ruby</a>
+    
+      <a href="/tag/activesupport">activesupport</a>
+    
+      <a href="/tag/rails">rails</a>
+    
+    <p class="post-meta"><i class="fa fa-calendar"></i>
+      <time datetime="2015-12-26T10:35:55+00:00" itemprop="datePublished">Dec 26, 2015</time>
+      
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>One of the cool features in <code class="language-plaintext highlighter-rouge">ActiveSupport</code> is <a href="http://apidock.com/rails/v4.2.1/Object/with_options"><code class="language-plaintext highlighter-rouge">with_options</code></a>.</p>
+
+<p>It helps you remove duplication:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">belongs_to</span> <span class="ss">:playlist</span><span class="p">,</span> <span class="ss">touch: </span><span class="kp">true</span><span class="p">,</span>  <span class="ss">inverse_of: :devices</span>
+<span class="n">belongs_to</span> <span class="ss">:company</span><span class="p">,</span>  <span class="ss">inverse_of: :devices</span></code></pre></figure>
+
+<p>Will become:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">with_options</span> <span class="ss">inverse_of: :devices</span> <span class="k">do</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span>
+  <span class="n">a</span><span class="p">.</span><span class="nf">belongs_to</span> <span class="ss">:playlist</span><span class="p">,</span> <span class="ss">touch: </span><span class="kp">true</span>
+  <span class="n">a</span><span class="p">.</span><span class="nf">belongs_to</span> <span class="ss">:company</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>However, there is one gotcha which was unclear for me after reading apidock.</p>
+
+<p>When using ActiveRecord associations you have to use block variable to define associations like in example above. So this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">with_options</span> <span class="ss">inverse_of: :devices</span> <span class="k">do</span>
+  <span class="n">belongs_to</span> <span class="ss">:playlist</span><span class="p">,</span> <span class="ss">touch: </span><span class="kp">true</span>
+  <span class="n">belongs_to</span> <span class="ss">:company</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Will not work! However, when using validations, delegations, attr_* it’s not required and you can write this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">with_options</span> <span class="ss">to: :profile</span><span class="p">,</span> <span class="ss">allow_nil: </span><span class="kp">true</span> <span class="k">do</span>
+    <span class="n">delegate</span> <span class="ss">:locale</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:gender</span><span class="p">,</span> <span class="ss">:time_zone</span><span class="p">,</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+  <span class="k">end</span>
+
+  <span class="n">with_options</span> <span class="ss">presence: </span><span class="kp">true</span> <span class="k">do</span>
+    <span class="n">validates</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">maximum: </span><span class="mi">256</span> <span class="p">}</span>
+    <span class="n">validates</span> <span class="ss">:password</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Use <code class="language-plaintext highlighter-rouge">with_options</code>, but remember to add block variable when using it for ActiveRecord associations.</p>
+
+<h3 id="links">Links</h3>
+
+<ul>
+  <li><a href="ruby-doc.org/docs/keywords/1.9/Object.html">Reference on apidock.com</a></li>
+  <li><a href="http://railscasts.com/episodes/42-with-options">RailsCasts#with_options</a></li>
+</ul>
+
+  </div>
+
+  <div class="social-share">
+    <span class="reddit-share">
+      <a href="//www.reddit.com/submit" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img src="//www.redditstatic.com/spreddit1.gif" alt="submit to reddit" border="0" /> </a>
+    </span>
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <ul class="contact-list">
+          <li>Oleg Antonyan</li>
+          <li>
+            <a href="/about"><img src="/assets/me_rounded.png" height="60em" width="60em"></a>
+          </li>
+          <li>
+            <div class="social-links">
+  <a href="" target="_blank">
+    <i class="fa fa-github"></i>
+  </a>
+  <a href="https://bitbucket.org/antlabs_dev" target="_blank">
+    <i class="fa fa-bitbucket"></i>
+  </a>
+  <a href="http://stackoverflow.com/users/1837084/oleg-antonyan" target="_blank">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  <a href="https://www.linkedin.com/in/oleg-antonyan-2b715089" target="_blank">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  <a href="https://angel.co/oleg-antonyan" target="_blank">
+    <i class="fa fa-angellist"></i>
+  </a>
+  <a href="https://www.facebook.com/100005362953409" target="_blank">
+    <i class="fa fa-facebook"></i>
+  </a>
+</div>
+
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>
+          undefined reference :: ruby and friends programming blog
+        </p>
+        <p>
+          Build with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, hosted on <a href="https://pages.github.com/" target="_blank">Github Pages</a>
+        </p>
+        <p>
+          <a href="https://github.com/olegantonyan/undefined-reference" target="_blank">Source code</a>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
