@@ -10,18 +10,16 @@ title: undefined reference
 email: oleg.b.antonyan@gmail.com
 author: Oleg Antonyan
 description: ruby and friends programming blog
-keywords: programming, software design, software engineering, ruby, python, mobile, web, rails, ruby on rails, programmer, patterns, iot
+keywords: programming, software design, software engineering, ruby, python, mobile, web, rails, ruby on rails, programmer, patterns, iot, rust, c, c++
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://undefined-reference.org" # the base hostname & protocol for your site
 
 # Social links
 twitter_link: "https://twitter.com/oleg_antonyan"
-github_link:  "https://github.com/olegantonyan"
 bitbucket_link: "https://bitbucket.org/antlabs_dev"
 stackoverflow_link: "http://stackoverflow.com/users/1837084/oleg-antonyan"
 linkedin_link: "https://www.linkedin.com/in/oleg-antonyan-2b715089"
 facebook_link: "https://www.facebook.com/100005362953409"
-google_link: "https://plus.google.com/u/0/110696624685152630696"
 angelist_link: "https://angel.co/oleg-antonyan"
 
 # Build settings
