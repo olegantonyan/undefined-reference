@@ -27,15 +27,12 @@ jobs:
     - name: Jekyll build
       run: bundle exec jekyll build
 
-    - name: Copy build artecfacts
+    - name: Commit files
       run: |
         mv ./_site /tmp/build
         git checkout gh-pages
         rm -rf ./*
         mv /tmp/build/ .
-
-    - name: Commit files
-      run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git commit -m "Add changes" -a
