@@ -1,4 +1,4 @@
-name: Release AUR package
+name: Release gh-pages branch
 
 on:
   push:
