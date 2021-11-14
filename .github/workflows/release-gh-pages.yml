@@ -29,10 +29,10 @@ jobs:
 
     - name: Copy build artecfacts
       run: |
-        cp -R ./_site/* /tmp/build
+        mv ./_site /tmp/build
         git checkout gh-pages
         rm -rf ./*
-        cp -R /tmp/build .
+        mv /tmp/build/ .
 
     - name: Commit files
       run: |
