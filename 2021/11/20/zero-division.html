@@ -7,25 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-    <meta name="description" content="Ruby's ensure sometimes may lead to not obvious behavior" />
+    <meta name="description" content="1.0 / 0.0 #=> Infinity, but 0.0 / 0.0 #=> NaN" />
     <meta property="og:description" content="description" />
   
   
-    <meta name="keywords" content="ruby, begin, ensure, rescue, fail, raise" />
+    <meta name="keywords" content="ruby" />
   
 
-  <meta property="og:url" content="https://undefined-reference.org/2015/12/13/ensure-you-understand-ensure.html" />
+  <meta property="og:url" content="https://undefined-reference.org/2021/11/20/zero-division.html" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://undefined-reference.org/assets/me_rounded.png" />
   <meta property="og:site_name" content="ruby and friends programming blog"/>
 
   
-    <title>Ensure you understand ensure</title>
-    <meta property="og:title" content="Ensure you understand ensure" />
+    <title>Float division by 0 in not always Infinity</title>
+    <meta property="og:title" content="Float division by 0 in not always Infinity" />
   
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://undefined-reference.org/2015/12/13/ensure-you-understand-ensure.html">
+  <link rel="canonical" href="https://undefined-reference.org/2021/11/20/zero-division.html">
   <link rel="alternate" type="application/rss+xml" title="undefined reference" href="https://undefined-reference.org/feed.xml">
   <link rel="stylesheet" href="/css/font-awesome-4.4.0/css/font-awesome.min.css">
 </head>
@@ -88,98 +88,35 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Ensure you understand ensure</h1>
+    <h1 class="post-title" itemprop="name headline">Float division by 0 in not always Infinity</h1>
     <i class="fa fa-tags"></i>
     
       <a href="/tag/ruby">ruby</a>
     
     <p class="post-meta"><i class="fa fa-calendar"></i>
-      <time datetime="2015-12-13T06:06:55+00:00" itemprop="datePublished">Dec 13, 2015</time>
+      <time datetime="2021-11-20T07:16:28+00:00" itemprop="datePublished">Nov 20, 2021</time>
       
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Let’s look at this code:</p>
+    <p>Turns out this is expected behavior:</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">func1</span>
-  <span class="nb">puts</span> <span class="s2">"one"</span>
-  <span class="k">return</span>
-  <span class="nb">puts</span> <span class="s2">"two"</span>
-<span class="k">ensure</span>
-  <span class="nb">puts</span> <span class="s2">"ensure"</span>
-<span class="k">end</span></code></pre></figure>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">0.0</span>
+<span class="o">=&gt;</span> <span class="no">Infinity</span>
+<span class="mf">0.0</span> <span class="o">/</span> <span class="mf">0.0</span>
+<span class="o">=&gt;</span> <span class="no">NaN</span>
+</code></pre></div></div>
 
-<p>How the result will look? Of course you’ll never see <code class="language-plaintext highlighter-rouge">"two"</code>, but what about <code class="language-plaintext highlighter-rouge">"ensure"</code>?</p>
+<p>Because Ruby follows IEEE 754:</p>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text">[13] pry(main)&gt; func1
-one
-ensure
-nil
-[14] pry(main)&gt;</code></pre></figure>
-
-<p>Even you return from a function without exceptions, <code class="language-plaintext highlighter-rouge">ensure</code> gets executed.</p>
-
-<p>Another example:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">func2</span>
-  <span class="mi">10</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
-    <span class="k">begin</span>
-      <span class="nb">puts</span> <span class="s2">"iteration </span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">"</span>
-      <span class="k">next</span> <span class="k">if</span> <span class="n">num</span><span class="p">.</span><span class="nf">even?</span>
-      <span class="nb">puts</span> <span class="s2">"after iteration </span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">ensure</span>
-      <span class="nb">puts</span> <span class="s2">"ensure"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></figure>
-
-<p>And let’s look at result:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text">[18] pry(main)&gt; func2
-iteration 0
-ensure 0
-iteration 1
-after iteration 1
-ensure 1
-iteration 2
-ensure 2
-iteration 3
-after iteration 3
-ensure 3
-iteration 4
-ensure 4
-iteration 5
-after iteration 5
-ensure 5
-iteration 6
-ensure 6
-iteration 7
-after iteration 7
-ensure 7
-iteration 8
-ensure 8
-iteration 9
-after iteration 9
-ensure 9
-10
-[19] pry(main)&gt;</code></pre></figure>
-
-<p>It was very surprising for me in a contrast with Ruby’s “least surprise principle”. But <a href="ruby-doc.org/docs/keywords/1.9/Object.html">this is how it works</a>:</p>
-
-<blockquote>
-  <p>Marks the final, optional clause of a begin/end block, generally in cases where the block also contains a rescue clause. The code in the ensure clause is guaranteed to be executed, whether control flows to the rescue block or not.</p>
-</blockquote>
-
-<h3 id="conclusion">Conclusion</h3>
-
-<p>Every time execution leaves <code class="language-plaintext highlighter-rouge">begin</code> block, <code class="language-plaintext highlighter-rouge">ensure</code> gets executed no matter what: exception, return, next, break, etc.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Invalid operation: mathematically undefined, e.g., the square root of a negative number. By default, returns qNaN.
+- Division by zero: an operation on finite operands gives an exact infinite result, e.g., 1/0 or log(0). By default, returns ±infinity.
+</code></pre></div></div>
 
 <h3 id="links">Links</h3>
-
 <ul>
-  <li><a href="ruby-doc.org/docs/keywords/1.9/Object.html">Reference on ruby-doc.org</a></li>
-  <li><a href="https://blog.newrelic.com/2014/12/10/weird-ruby-2-rescue-interrupt-ensure/">Weird Ruby Part 2: Exceptional Ensurance</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE 754</a></li>
 </ul>
 
   </div>
