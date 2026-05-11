@@ -4,7 +4,8 @@ layout: default
 
 <div class="home">
 
-  <!--<h1 class="page-heading">Posts</h1>-->
+  <h1 class="page-heading">{{ site.title }}</h1>
+  <p>{{ site.description | capitalize }} by {{ site.author }}. Notes on Ruby, Rails, and adjacent corners of software engineering.</p>
 
   <ul class="post-list">
     {% for post in site.posts %}
