@@ -3,6 +3,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <script>
+    (function () {
+      try {
+        document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'auto');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'auto');
+      }
+    })();
+  </script>
+
   {% assign page_description = page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 %}
   {% assign page_url = page.url | replace:'/index.html','/' | prepend: site.baseurl | prepend: site.url %}
   {% assign page_image_path = page.image | default: '/assets/me_rounded.png' %}
@@ -16,8 +26,13 @@
   {% if page.title %}
     <title>{{ page.title }} | {{ site.title }}</title>
   {% else %}
-    <title>{{ site.title }}</title>
+    <title>{{ site.title }}{% if site.tagline %} — {{ site.tagline }} by {{ site.author }}{% endif %}</title>
   {% endif %}
+
+  <link rel="icon" type="image/png" href="{{ '/assets/me_rounded.png' | prepend: site.baseurl }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/me_rounded.png' | prepend: site.baseurl }}">
+  <meta name="theme-color" content="#2a7ae2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
 
   <meta name="description" content="{{ page_description }}">
   {% if page.author or site.author %}
@@ -86,6 +101,40 @@
     </script>
   {% endif %}
 
+  {% if page.url == '/' or page.layout == 'page' %}
+    {% assign social_profiles = "" | split: "" %}
+    {% if site.github_link %}{% assign social_profiles = social_profiles | push: site.github_link %}{% endif %}
+    {% if site.bitbucket_link %}{% assign social_profiles = social_profiles | push: site.bitbucket_link %}{% endif %}
+    {% if site.linkedin_link %}{% assign social_profiles = social_profiles | push: site.linkedin_link %}{% endif %}
+    {% if site.stackoverflow_link %}{% assign social_profiles = social_profiles | push: site.stackoverflow_link %}{% endif %}
+    {% if site.angelist_link %}{% assign social_profiles = social_profiles | push: site.angelist_link %}{% endif %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": {{ site.url | append: '/#website' | jsonify }},
+          "url": {{ site.url | append: '/' | jsonify }},
+          "name": {{ site.title | jsonify }},
+          "description": {{ site.description | jsonify }},
+          "inLanguage": "en",
+          "publisher": { "@id": {{ site.url | append: '/#person' | jsonify }} }
+        },
+        {
+          "@type": "Person",
+          "@id": {{ site.url | append: '/#person' | jsonify }},
+          "name": {{ site.author | jsonify }},
+          "url": {{ site.url | append: '/' | jsonify }},
+          "image": {{ '/assets/me.jpg' | prepend: site.url | jsonify }},
+          "jobTitle": "Software Engineer",
+          "knowsAbout": ["Ruby", "Ruby on Rails", "Software engineering", "Data engineering", "C", "C++", "Rust"],
+          "sameAs": {{ social_profiles | jsonify }}
+        }
+      ]
+    }
+    </script>
+  {% endif %}
+
   <link rel="stylesheet" href="{{ '/css/main.css' | prepend: site.baseurl }}">
-  <link rel="stylesheet" href="{{ '/css/font-awesome-4.4.0/css/font-awesome.min.css' | prepend: site.baseurl }}">
 </head>

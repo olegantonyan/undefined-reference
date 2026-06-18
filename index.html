@@ -4,19 +4,16 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">{{ site.title }}</h1>
-  <p>{{ site.description | capitalize }} by {{ site.author }}. Notes on Ruby, Rails, and adjacent corners of software engineering.</p>
-
   <ul class="post-list">
     {% for post in site.posts %}
       <li>
         <span class="post-meta">
-          {% icon fa-calendar %}
-          {{ post.date | date: "%b %-d, %Y" }}
-          {% icon fa-tags %}
-          {% for tag in post.tags %}
-            <a href="/tag/{{ tag }}">{{ tag }}</a>
-          {% endfor %}
+          <span class="meta-item">{% include icon.html name="calendar" %} {{ post.date | date: "%b %-d, %Y" }}</span>
+          {% if post.tags.size > 0 %}
+          <span class="meta-item">{% include icon.html name="tags" %}
+            {% for tag in post.tags %}<a class="tag-pill" href="/tag/{{ tag }}">{{ tag }}</a>{% endfor %}
+          </span>
+          {% endif %}
         </span>
 
         <h2>

@@ -1,10 +1,303 @@
+/**
+ * Inline SVG icons (replaces Font Awesome).
+ * No `fill` here: brand icons carry fill="currentColor", stroke icons keep fill="none".
+ */
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+}
+
+.post-meta .svg-icon {
+  color: $grey-color;
+}
+
+/**
+ * Social links
+ */
 .social-links {
-  font-size: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+
   a {
-    i {
-      color: grey;
+    color: $grey-color;
+    display: inline-flex;
+
+    &:hover {
+      color: $brand-color;
+    }
+  }
+
+  .svg-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/**
+ * Theme switch (auto / light / dark)
+ */
+.theme-toggle {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-left: 20px;
+  cursor: pointer;
+  color: $text-color;
+  line-height: $base-line-height;
+  vertical-align: middle;
+
+  .ti {
+    display: none;
+  }
+
+  .svg-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: $brand-color;
+  }
+
+  @include media-query($on-palm) {
+    display: block;
+    width: 100%;
+    text-align: right;
+    padding: 5px 10px;
+    margin-left: 0;
+  }
+}
+
+.theme-toggle .ti { display: none; }
+html[data-theme="light"] .theme-toggle .ti-light,
+html[data-theme="dark"]  .theme-toggle .ti-dark,
+html[data-theme="auto"]  .theme-toggle .ti-auto,
+html:not([data-theme])   .theme-toggle .ti-auto {
+  display: inline-flex;
+}
+
+/**
+ * Post meta line (date / tags / author)
+ */
+.post-meta {
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    &:not(:last-child) {
+      margin-right: 16px;
     }
   }
 }
 
-img[alt=MyPhoto] { float: right; }
+/**
+ * Tag pills
+ */
+.tag-pill {
+  display: inline-block;
+  padding: 1px 8px;
+  margin: 0 2px;
+  font-size: 0.85em;
+  border-radius: 999px;
+  background-color: $grey-color-light;
+  color: $grey-color-dark;
+
+  &:visited {
+    color: $grey-color-dark;
+  }
+
+  &:hover {
+    background-color: $brand-color;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+/**
+ * Share / discuss links
+ */
+.post-share {
+  margin: $spacing-unit 0;
+  font-size: $small-font-size;
+  color: $grey-color;
+
+  .post-share-label {
+    margin-right: 8px;
+  }
+
+  a:not(:last-child) {
+    margin-right: 12px;
+  }
+}
+
+/**
+ * Related posts
+ */
+.related-posts {
+  margin-top: $spacing-unit;
+  padding-top: $spacing-unit / 2;
+  border-top: 1px solid $grey-color-light;
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: $spacing-unit / 4;
+  }
+
+  ul {
+    list-style: none;
+    margin-left: 0;
+  }
+
+  .post-link {
+    font-size: 18px;
+  }
+}
+
+/**
+ * Code copy button
+ */
+.highlight,
+figure.highlight {
+  position: relative;
+
+  .copy-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-family: $base-font-family;
+    color: $grey-color-dark;
+    background: $background-color;
+    border: 1px solid $grey-color-light;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+  }
+
+  &:hover .copy-btn {
+    opacity: 1;
+  }
+}
+
+/**
+ * Dark appearance — applied for an explicit dark choice, and (via media query)
+ * for "auto"/no-preference when the OS prefers dark.
+ */
+@mixin dark-appearance {
+  body {
+    background-color: #1a1a1a;
+    color: #e6e6e6;
+  }
+
+  a {
+    color: #6ea8fe;
+
+    &:visited {
+      color: #9ec1ff;
+    }
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .site-header {
+    border-top-color: #444;
+    border-bottom-color: #333;
+  }
+
+  .site-title,
+  .site-title:visited {
+    color: #f0f0f0;
+  }
+
+  .site-nav .page-link,
+  .theme-toggle {
+    color: #cfcfcf;
+  }
+
+  .site-nav {
+    @include media-query($on-palm) {
+      background-color: #222;
+      border-color: #333;
+    }
+
+    .menu-icon svg path {
+      fill: #cfcfcf;
+    }
+  }
+
+  .site-footer {
+    border-top-color: #333;
+  }
+
+  .footer-col-wrapper,
+  .post-meta,
+  .post-share {
+    color: #9a9a9a;
+  }
+
+  pre,
+  code {
+    background-color: #23232b;
+    border-color: #3a3a44;
+    color: #e6e6e6;
+  }
+
+  .highlight,
+  .highlighter-rouge .highlight {
+    background: #23232b;
+  }
+
+  .highlight {
+    .c, .cm, .c1, .cs { color: #7f8c8d; }
+    .k, .kd, .kr, .kt, .kc, .kp, .o, .ow { color: #c678dd; }
+    .s, .s1, .s2, .se, .sb, .sc, .sd, .sh, .si, .sx, .ss { color: #98c379; }
+    .nf, .ne { color: #61afef; }
+    .nc, .nn, .no, .nb, .na, .nv, .vi, .vg, .vc, .bp { color: #e5c07b; }
+    .m, .mi, .mf, .mh, .mo, .il { color: #d19a66; }
+    .nt { color: #e06c75; }
+  }
+
+  .tag-pill {
+    background-color: #33333d;
+    color: #cfcfcf;
+
+    &:visited { color: #cfcfcf; }
+    &:hover { background-color: $brand-color; color: #fff; }
+  }
+
+  blockquote {
+    color: #b8b8b8;
+    border-left-color: #444;
+  }
+
+  .related-posts {
+    border-top-color: #333;
+  }
+
+  .copy-btn {
+    background: #2c2c34 !important;
+    color: #cfcfcf !important;
+    border-color: #444 !important;
+  }
+}
+
+html[data-theme="dark"] {
+  @include dark-appearance;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"],
+  html:not([data-theme]) {
+    @include dark-appearance;
+  }
+}

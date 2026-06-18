@@ -1,0 +1,16 @@
+---
+layout: null
+sitemap: false
+---
+# {{ site.title }}
+
+> {{ site.description | capitalize }} by {{ site.author }}. Notes on Ruby, Rails, and adjacent corners of software engineering.
+
+This is a personal programming blog. Articles are short, focused, and code-heavy. Full content of each post is available at its URL.
+
+## Posts
+{% for post in site.posts %}- [{{ post.title }}]({{ post.url | prepend: site.url }}){% if post.description %}: {{ post.description | strip_html | strip_newlines }}{% endif %}
+{% endfor %}
+## Pages
+- [About]({{ '/about/' | prepend: site.url }}): About {{ site.author }}
+- [RSS feed]({{ '/feed.xml' | prepend: site.url }}): Full-text feed of all posts

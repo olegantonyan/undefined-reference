@@ -1,17 +1,7 @@
 <div class="social-links">
-  <a href="{{ site.github_link }}" target="_blank">
-    <i class="fa fa-github"></i>
-  </a>
-  <a href="{{ site.bitbucket_link }}" target="_blank">
-    <i class="fa fa-bitbucket"></i>
-  </a>
-  <a href="{{ site.stackoverflow_link }}" target="_blank">
-    <i class="fa fa-stack-overflow"></i>
-  </a>
-  <a href="{{ site.linkedin_link }}" target="_blank">
-    <i class="fa fa-linkedin"></i>
-  </a>
-  <a href="{{ site.angelist_link }}" target="_blank">
-    <i class="fa fa-angellist"></i>
-  </a>
+  {% if site.github_link %}<a href="{{ site.github_link }}" target="_blank" rel="me noopener" aria-label="GitHub" title="GitHub">{% include icon.html name="github" %}</a>{% endif %}
+  {% if site.bitbucket_link %}<a href="{{ site.bitbucket_link }}" target="_blank" rel="me noopener" aria-label="Bitbucket" title="Bitbucket">{% include icon.html name="bitbucket" %}</a>{% endif %}
+  {% if site.stackoverflow_link %}<a href="{{ site.stackoverflow_link }}" target="_blank" rel="me noopener" aria-label="Stack Overflow" title="Stack Overflow">{% include icon.html name="stackoverflow" %}</a>{% endif %}
+  {% if site.linkedin_link %}<a href="{{ site.linkedin_link }}" target="_blank" rel="me noopener" aria-label="LinkedIn" title="LinkedIn">{% include icon.html name="linkedin" %}</a>{% endif %}
+  {% if site.angelist_link %}<a href="{{ site.angelist_link }}" target="_blank" rel="me noopener" aria-label="AngelList / Wellfound" title="AngelList / Wellfound">{% include icon.html name="angellist" %}</a>{% endif %}
 </div>

@@ -1,0 +1,40 @@
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var toggle = document.querySelector('.theme-toggle');
+    if (toggle) {
+      var modes = ['auto', 'light', 'dark'];
+      var root = document.documentElement;
+      var sync = function () {
+        toggle.setAttribute('aria-label', 'Color theme: ' + (root.getAttribute('data-theme') || 'auto') + ' (click to change)');
+      };
+      sync();
+      toggle.addEventListener('click', function () {
+        var current = root.getAttribute('data-theme') || 'auto';
+        var next = modes[(modes.indexOf(current) + 1) % modes.length];
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        sync();
+      });
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!navigator.clipboard) return;
+    document.querySelectorAll('div.highlight, figure.highlight').forEach(function (block) {
+      var pre = block.querySelector('pre');
+      if (!pre) return;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function () {
+        var code = block.querySelector('code') || pre;
+        navigator.clipboard.writeText(code.innerText.replace(/\n$/, '')).then(function () {
+          btn.textContent = 'Copied!';
+          setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+        });
+      });
+      block.appendChild(btn);
+    });
+  });
+</script>
