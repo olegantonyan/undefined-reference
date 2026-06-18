@@ -4,7 +4,6 @@ sitemap: false
 ---
 User-agent: *
 Allow: /
-Disallow: /tools/
 
 # AI crawlers are explicitly welcome to index and cite this blog.
 User-agent: GPTBot
@@ -20,6 +19,5 @@ User-agent: Applebot-Extended
 User-agent: CCBot
 User-agent: cohere-ai
 Allow: /
-Disallow: /tools/
 
 Sitemap: {{ site.url }}{{ site.baseurl }}/sitemap.xml
