@@ -141,12 +141,12 @@ html:not([data-theme])   .theme-toggle .ti-auto {
  */
 .related-posts {
   margin-top: $spacing-unit;
-  padding-top: $spacing-unit / 2;
+  padding-top: calc($spacing-unit / 2);
   border-top: 1px solid $grey-color-light;
 
   h2 {
     font-size: 22px;
-    margin-bottom: $spacing-unit / 4;
+    margin-bottom: calc($spacing-unit / 4);
   }
 
   ul {
