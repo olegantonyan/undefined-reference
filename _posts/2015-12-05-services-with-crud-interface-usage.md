@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  Using service objects with CRUD interface, the smart way
 date:   2015-12-05 11:27:09 +0200
 description: User CRUD interface with your domain objects with crud_responder gem

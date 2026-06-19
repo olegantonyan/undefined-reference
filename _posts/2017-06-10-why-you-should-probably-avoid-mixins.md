@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Why you should probably avoid mixins"
 date:   2017-06-10 07:35:28 +0200
 description: Mixins can be dangerous in many cases, avoid them if you can

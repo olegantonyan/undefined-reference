@@ -43,7 +43,7 @@
   {% endif %}
 
   <link rel="canonical" href="{{ page_url }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | prepend: site.baseurl | prepend: site.url }}">
+  {% feed_meta %}
 
   <meta property="og:type" content="{{ og_type }}">
   <meta property="og:site_name" content="{{ site.title }}">

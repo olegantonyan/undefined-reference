@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  Custom templates path for controller
 date:   2016-01-23 10:41:12 +0200
 description: Using ActionController::Base.controller_path or prepend_view_path to specify path for all templates

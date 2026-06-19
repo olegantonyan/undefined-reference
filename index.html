@@ -6,20 +6,7 @@ layout: default
 
   <ul class="post-list">
     {% for post in site.posts %}
-      <li>
-        <span class="post-meta">
-          <span class="meta-item">{% include icon.html name="calendar" %} {{ post.date | date: "%b %-d, %Y" }}</span>
-          {% if post.tags.size > 0 %}
-          <span class="meta-item">{% include icon.html name="tags" %}
-            {% for tag in post.tags %}<a class="tag-pill" href="/tag/{{ tag }}">{{ tag }}</a>{% endfor %}
-          </span>
-          {% endif %}
-        </span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
+      {% include post-list-item.html post=post %}
     {% endfor %}
   </ul>
 

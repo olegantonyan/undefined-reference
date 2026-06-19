@@ -1,34 +1,19 @@
 <footer class="site-footer">
+  <div class="wrapper footer-inner">
 
-  <div class="wrapper">
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-3">
-        <ul class="contact-list">
-          <li>{{ site.author }}</li>
-          <li>
-            <a href="/about"><img src="/assets/me_rounded.png" height="60em" width="60em"></a>
-          </li>
-          <li>
-            {% include social_links.html %}
-          </li>
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>
-          {{ site.title }} :: {{ site.description }}
-        </p>
-        <p>
-          Build with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, hosted on <a href="https://pages.github.com/" target="_blank">Github Pages</a>
-        </p>
-        <p>
-          <a href="https://github.com/olegantonyan/undefined-reference" target="_blank">Source code</a>
-        </p>
-      </div>
-
+    <div class="footer-about">
+      <span class="footer-name">{{ site.author }}</span>
+      <span class="footer-tagline">{{ site.description | capitalize }}</span>
     </div>
 
-  </div>
+    {% include social_links.html %}
 
+    <p class="footer-meta">
+      <a href="/about/">About</a> ·
+      <a href="/feed.xml">RSS</a> ·
+      <a href="https://github.com/olegantonyan/undefined-reference" target="_blank" rel="noopener">Source</a> ·
+      Built with <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>
+    </p>
+
+  </div>
 </footer>

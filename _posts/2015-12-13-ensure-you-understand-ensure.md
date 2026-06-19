@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  Ensure you understand ensure
 date:   2015-12-13 08:06:55 +0200
 description: Ruby's ensure sometimes may lead to not obvious behavior

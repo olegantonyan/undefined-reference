@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Resident eval - code: Ruby. Survival guide"
 date:   2016-02-22 12:16:28 +0200
 description: Different methods to eval ruby code

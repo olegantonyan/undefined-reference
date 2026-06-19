@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  Improve console print debugging experience
 date:   2016-01-31 14:46:12 +0200
 description: Improving console print debugging

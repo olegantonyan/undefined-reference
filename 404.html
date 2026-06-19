@@ -1,0 +1,20 @@
+---
+layout: default
+title: "404: Page not found"
+permalink: /404.html
+noindex: true
+sitemap: false
+---
+
+<div class="home">
+
+  <h1 class="page-heading">404 — Page not found</h1>
+  <p>That page doesn’t exist. Try the <a href="/">home page</a>, or one of the recent posts:</p>
+
+  <ul class="post-list">
+    {% for post in site.posts limit:5 %}
+      {% include post-list-item.html post=post %}
+    {% endfor %}
+  </ul>
+
+</div>

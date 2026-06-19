@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  DRY with_options
 date:   2015-12-26 12:35:55 +0200
 description: ActiveSupport's with_options helps you keep classes DRY

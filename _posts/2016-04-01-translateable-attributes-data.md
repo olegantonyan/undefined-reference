@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "I18n for data in your models"
 date:   2016-04-01 13:52:28 +0200
 description: How to store data in multiple languages

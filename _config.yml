@@ -25,4 +25,15 @@ angelist_link: "https://angel.co/oleg-antonyan"
 # Build settings
 markdown: kramdown
 
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
 exclude: [vendor]

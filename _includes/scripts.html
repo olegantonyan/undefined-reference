@@ -37,4 +37,15 @@
       block.appendChild(btn);
     });
   });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.post-content h2[id], .post-content h3[id], .post-content h4[id]').forEach(function (h) {
+      var a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = '#' + h.id;
+      a.setAttribute('aria-hidden', 'true');
+      a.textContent = '#';
+      h.appendChild(a);
+    });
+  });
 </script>

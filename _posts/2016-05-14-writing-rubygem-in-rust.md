@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Writing Ruby gem in Rust"
 date:   2016-05-14 07:12:28 +0200
 description: How to integrate Rust with Ruby

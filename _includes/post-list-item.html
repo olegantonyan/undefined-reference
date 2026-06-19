@@ -1,0 +1,12 @@
+<li class="post-item">
+  <span class="post-meta">
+    <span class="meta-item">{% include icon.html name="calendar" %} {{ include.post.date | date: "%b %-d, %Y" }}</span>
+    {% if include.post.tags.size > 0 %}
+    <span class="meta-item">{% include icon.html name="tags" %}
+      {% for tag in include.post.tags %}<a class="tag-pill" href="/tag/{{ tag }}">{{ tag }}</a>{% endfor %}
+    </span>
+    {% endif %}
+  </span>
+  <h2 class="post-item-title"><a class="post-link" href="{{ include.post.url | prepend: site.baseurl }}">{{ include.post.title }}</a></h2>
+  {% if include.show_desc and include.post.description %}<p class="post-item-desc">{{ include.post.description }}</p>{% endif %}
+</li>

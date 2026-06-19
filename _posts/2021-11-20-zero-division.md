@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Float division by 0 in not always Infinity"
 date:   2021-11-20 09:16:28 +0200
 description: "1.0 / 0.0 #=> Infinity, but 0.0 / 0.0 #=> NaN"
